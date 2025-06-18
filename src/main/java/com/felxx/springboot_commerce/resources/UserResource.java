@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.felxx.springboot_commerce.entities.User;
 import com.felxx.springboot_commerce.services.UserService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
