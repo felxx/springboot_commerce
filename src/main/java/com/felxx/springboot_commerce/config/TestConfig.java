@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.felxx.springboot_commerce.entities.Category;
 import com.felxx.springboot_commerce.entities.Order;
+import com.felxx.springboot_commerce.entities.OrderItem;
 import com.felxx.springboot_commerce.entities.Product;
 import com.felxx.springboot_commerce.entities.User;
 import com.felxx.springboot_commerce.entities.enums.OrderStatus;
 import com.felxx.springboot_commerce.repositories.CategoryRepository;
+import com.felxx.springboot_commerce.repositories.OrderItemRepository;
 import com.felxx.springboot_commerce.repositories.OrderRepository;
 import com.felxx.springboot_commerce.repositories.ProductRepository;
 import com.felxx.springboot_commerce.repositories.UserRepository;
@@ -33,6 +35,9 @@ public class TestConfig implements CommandLineRunner{
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -57,7 +62,7 @@ public class TestConfig implements CommandLineRunner{
         p5.getCategories().add(cat2);
 
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
-        
+
         User user1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
         User user2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
 
@@ -67,5 +72,12 @@ public class TestConfig implements CommandLineRunner{
 
         userRepository.saveAll(Arrays.asList(user1, user2));
         orderRepository.saveAll(Arrays.asList(order1, order2, order3));
+
+        OrderItem oi1 = new OrderItem(order1, p1, 2, p1.getPrice()); 
+        OrderItem oi2 = new OrderItem(order1, p3, 1, p3.getPrice()); 
+        OrderItem oi3 = new OrderItem(order2, p3, 2, p3.getPrice()); 
+        OrderItem oi4 = new OrderItem(order3, p5, 2, p5.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
     }
 }
