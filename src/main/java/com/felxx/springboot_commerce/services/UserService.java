@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.felxx.springboot_commerce.entities.User;
 import com.felxx.springboot_commerce.repositories.UserRepository;
+import com.felxx.springboot_commerce.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -21,6 +22,26 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
-        return userOptional.get();
+        return userOptional.orElseThrow(() -> new ResourceNotFoundException(id));
+    }
+
+    public User insert(User user) {
+        return userRepository.save(user);
+    }
+
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public User update(Long id, User user) {
+        User existingUser = userRepository.getReferenceById(id);
+        updateData(existingUser, user);
+        return userRepository.save(existingUser);
+    }
+
+    private void updateData(User existingUser, User user) {
+        existingUser.setName(user.getName());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPhone(user.getPhone());
     }
 }
